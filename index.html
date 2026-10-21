@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Gestor de Tareas</title>
+    <meta name="description" content="Aplicación para gestionar tus tareas: agregar, buscar, modificar y eliminar.">
+</head>
+
+<body>
+    <div >
+
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="header-title">
+                    <h1>Mis Tareas</h1>
+                </div>
+                <div class="contenedor-botones">
+                    <button id="boton-agregar" class="button-name btn-agregar" role="button">Agregar</button>
+                    <button id="boton-buscar" class="button-name btn-buscar" role="button">Buscar</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section id="formularios">
+
+                <form id="form-buscar" style="display: none;" class="form-card">
+                    <div class="cerrar">
+                        <button type="button" class="button boton-cerrar-formBuscar">
+                            <span class="X"></span>
+                            <span class="Y"></span>
+                            <div class="close">Cerrar</div>
+                        </button>
+                    </div>
+                    <h3>Buscar Tarea</h3>
+                    <input class="input" type="text" name="tarea" placeholder="Nombre de la tarea">
+                    <input class="input" type="date" name="fecha">
+                    <input class="input" type="number" name="clave" placeholder="Número de tarea">
+                    <input class="input" type="text" name="ubicacion" placeholder="Ubicación">
+                    <div class="form-actions">
+                        <input class="input input-submit" type="submit" value="Buscar">
+                        <button id="boton-filtros" type="button" class="btn-limpiar">Limpiar filtros</button>
+                    </div>
+                </form>
+
+                <form id="form-agregar" style="display: none;" class="form-card">
+                    <div class="cerrar">
+                        <button type="button" class="button boton-cerrar-formAgregar">
+                            <span class="X"></span>
+                            <span class="Y"></span>
+                            <div class="close">Cerrar</div>
+                        </button>
+                    </div>
+                    <h3>Agregar Tarea</h3>
+                    <input class="input" type="text" name="tarea" placeholder="Nombre de la tarea" required>
+                    <input class="input" type="date" name="fecha" required>
+                    <input class="input" type="text" name="descripcion" placeholder="Descripción" required>
+                    <input class="input" type="text" name="ubicacion" placeholder="Ubicación" required>
+                    <input class="input input-submit" type="submit" value="Agregar Tarea">
+                </form>
+
+                <form id="form-modificar" style="display: none;" class="form-card">
+                    <div class="cerrar">
+                        <button type="button" class="boton-cerrar-formModif button button-x-plain">X</button>
+                    </div>
+                    <h3 id="titulo-modificar">Modificar tarea</h3>
+                    <p class="form-hint">Ingresá los datos a modificar</p>
+                    <input class="input" type="hidden" name="clave">
+                    <input class="input" type="text" name="tarea" placeholder="Tarea" required>
+                    <input class="input" type="date" name="fecha" required>
+                    <input class="input" type="text" name="descripcion" placeholder="Descripción" required>
+                    <input class="input" type="text" name="ubicacion" placeholder="Ubicación" required>
+                    <input class="input input-submit" type="submit" value="Guardar cambios">
+                </form>
+
+            </section>
+
+            <section id="listado">
+                <h2 class="listado-titulo">Listado de tareas</h2>
+                <div id="listadoTareas"></div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="modulos1.js"></script>
+    <script src="llamar.js"></script>
+</body>
+
+</html>
