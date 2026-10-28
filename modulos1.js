@@ -1,4 +1,24 @@
 const API_URL = 'https://6a8cc02563f113bab0b86d95.mockapi.io/tarea';
+const IMGBB_KEY = 'cfbbd24dd4ac492824150b306b2ab202';
+
+// sube la imagen a imgBB y devuelve la URL (o null si falla)
+function subirImg(archivo) {
+    const formData = new FormData();
+    formData.append('image', archivo);
+
+    return fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
+        method: 'POST',
+        body: formData
+    }).then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            return data.data.url;
+        }
+        return null;
+    }).catch(error => {
+        return null;
+    });
+}
 
 function agregarTarea(nuevaTarea) {
     const url = new URL(API_URL);
@@ -20,6 +40,7 @@ function agregarTarea(nuevaTarea) {
 function plantillaTarea(t) {
     return `
         <div class="tarea">
+            ${t.imagen ? `<img class="tarea-img" src="${t.imagen}" alt="${t.tarea}">` : ''}
             <div class="info">
                 <p><strong>Tarea:</strong> ${t.tarea}</p>
                 <p><strong>Fecha:</strong> ${t.fecha}</p>
@@ -120,7 +141,16 @@ function cargarFormModificar(id) {
         form.fecha.value = tareaObj.fecha;
         form.descripcion.value = tareaObj.descripcion;
         form.ubicacion.value = tareaObj.ubicacion;
-        
+        form.imagenActual.value = tareaObj.imagen || '';
+
+        const preview = form.querySelector("#preview-modificar");
+        if (tareaObj.imagen) {
+            preview.src = tareaObj.imagen;
+            preview.style.display = "block";
+        } else {
+            preview.style.display = "none";
+        }
+
         form.style.display = "block";
     }).catch(error => {});
 }
@@ -135,7 +165,8 @@ function modificarTarea(datos) {
             tarea: datos.tarea,
             fecha: datos.fecha,
             descripcion: datos.descripcion,
-            ubicacion: datos.ubicacion
+            ubicacion: datos.ubicacion,
+            imagen: datos.imagen
         })
     }).then(res => {
         if (!res.ok) {

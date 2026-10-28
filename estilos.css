@@ -105,6 +105,21 @@ body {
 
 .tarea .botones { flex-shrink: 0; margin-left: 16px; }
 
+.tarea-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.preview-img {
+    max-width: 120px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
 form {
     background: #171724;
     border: 1px solid #232336;

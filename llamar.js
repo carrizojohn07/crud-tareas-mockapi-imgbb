@@ -30,14 +30,24 @@ document.addEventListener("DOMContentLoaded", () => {
     formAgregar.addEventListener("submit", (event) => {
         event.preventDefault();
         
-        const nuevaTarea = {
-            tarea: formAgregar.tarea.value,
-            fecha: formAgregar.fecha.value,
-            descripcion: formAgregar.descripcion.value,
-            ubicacion: formAgregar.ubicacion.value
-        };
-        
-        agregarTarea(nuevaTarea).then(exito => {
+        const archivo = formAgregar.imagen.files[0];
+
+        subirImg(archivo).then(imageUrl => {
+            if (!imageUrl) {
+                alert("No se pudo subir la imagen");
+                return false;
+            }
+
+            const nuevaTarea = {
+                tarea: formAgregar.tarea.value,
+                fecha: formAgregar.fecha.value,
+                descripcion: formAgregar.descripcion.value,
+                ubicacion: formAgregar.ubicacion.value,
+                imagen: imageUrl
+            };
+
+            return agregarTarea(nuevaTarea);
+        }).then(exito => {
             if (exito) {
                 formAgregar.reset();
                 formAgregar.style.display = "none";
@@ -74,18 +84,32 @@ document.addEventListener("DOMContentLoaded", () => {
     formModificar.addEventListener("submit", (event) => {
         event.preventDefault();
         
-        const datosModificados = {
-            clave: formModificar.clave.value,
-            tarea: formModificar.tarea.value,
-            fecha: formModificar.fecha.value,
-            descripcion: formModificar.descripcion.value,
-            ubicacion: formModificar.ubicacion.value
-        };
-        
-        modificarTarea(datosModificados).then(() => {
-            formModificar.reset();
-            formModificar.style.display = "none";
-            mostrarTareas();
+        // si eligió una imagen nueva la subimos, si no se mantiene la actual
+        const archivo = formModificar.imagen.files[0];
+        const subida = archivo ? subirImg(archivo) : Promise.resolve(formModificar.imagenActual.value);
+
+        subida.then(imageUrl => {
+            if (archivo && !imageUrl) {
+                alert("No se pudo subir la imagen");
+                return false;
+            }
+
+            const datosModificados = {
+                clave: formModificar.clave.value,
+                tarea: formModificar.tarea.value,
+                fecha: formModificar.fecha.value,
+                descripcion: formModificar.descripcion.value,
+                ubicacion: formModificar.ubicacion.value,
+                imagen: imageUrl
+            };
+
+            return modificarTarea(datosModificados);
+        }).then(exito => {
+            if (exito) {
+                formModificar.reset();
+                formModificar.style.display = "none";
+                mostrarTareas();
+            }
         });
     });
 
